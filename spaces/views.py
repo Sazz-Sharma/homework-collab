@@ -15,13 +15,15 @@ from datetime import datetime
 @permission_classes([IsAuthenticated])
 def create_space(request):
     if request.method == "POST":
-        serializer = SpaceSerializer(data=request.data)
-        token = request.headers['Authorization'].split()[1]
-        teacher_id = Token.objects.get(key = token).user_id
+        copied_data = request.data.copy()
+        copied_data['teacher'] = request.user.id
+        serializer = SpaceSerializer(data=copied_data)
+        # token = request.headers['Authorization'].split()[1]
+        # teacher_id = Token.objects.get(key = token).user_id
         if serializer.is_valid():
-            serializer.validated_data['teacher'] = User.objects.get(pk = teacher_id)
+            # serializer.validated_data['teacher'] = User.objects.get(pk = teacher_id)
             serializer.save()
-            userspaceserializer = UserSpaceSerializer(data = {'user': User.objects.get(pk = teacher_id).id, 'space': serializer.data['spaceId'], 'is_teacher': True})
+            userspaceserializer = UserSpaceSerializer(data = {'user': User.objects.get(pk = copied_data['teacher']).id, 'space': serializer.data['spaceId'], 'is_teacher': True})
             if userspaceserializer.is_valid():
                 userspaceserializer.save()
             message = f" {serializer.data['name']} created by {User.objects.get(pk = serializer.data['teacher']).username} successfully"
