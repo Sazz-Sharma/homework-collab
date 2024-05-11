@@ -20,6 +20,16 @@ class GetUserSpaceSerializer(serializers.ModelSerializer):
         
 class GetSpaceSerializer(serializers.ModelSerializer):
     teacher_username = serializers.CharField(source='teacher.username', read_only=True)
+    # spaceId = serializers.UUIDField(source='spaceId', read_only=True)
+    # number_of_notice = serializers.IntegerField(source = len(Notice.objects.filter(space = 'spaceId')), read_only=True)
+    
+    # number_of_notice = len(Notice.objects.filter(space = 'spaceId'))
+    # number_of_notice = serializers.IntegerField(source = len(Notice.objects), read_only=True)
+    # number_of_notice = serializers.IntegerField(source = len(Notice.objects.filter(space = 'spaceId')), read_only=True)
+    
+    # latest_notice = 
+    # number_of_members = 
+    # number_of_portals = 
     class Meta:
         model = Space
         fields = ('spaceId', 'name', 'teacher_username', 'created_at')

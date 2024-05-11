@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from djoser import views as djoser_views
-
+from accounts.views import get_username_from_id
 
 
 urlpatterns = [
@@ -26,4 +26,5 @@ urlpatterns = [
     path('auth/', include('djoser.urls.authtoken')),
     path('space/', include('spaces.urls')),
     path('space/portal/', include('portal.urls')),
+    path('get_username/', get_username_from_id)
 ]

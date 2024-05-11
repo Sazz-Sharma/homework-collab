@@ -81,6 +81,10 @@ def change_to_teacher(request, spaceId, member_name):
 def spaces(request):
     if request.method == "GET":
         serializer = GetSpaceSerializer(Space.objects.all(), many = True)
+        (print(serializer.data))
+        # latest_notice = 
+        # number_of_members = 
+        # number_of_portals = 
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response({'error': 'Invalid request'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -127,7 +131,7 @@ def notice_manager(request, spaceId):
     #         return Response(serializer.data, status=status.HTTP_200_OK)
     #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-
+    
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def member_of_space(request, spaceId):
@@ -135,6 +139,7 @@ def member_of_space(request, spaceId):
         user_space_serializer = GetUserSpaceSerializer(UserSpace.objects.filter(space = spaceId), many = True)
         return Response(user_space_serializer.data, status=status.HTTP_200_OK)
     return Response({'error': 'Invalid request'}, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

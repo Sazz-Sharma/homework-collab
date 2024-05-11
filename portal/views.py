@@ -69,4 +69,3 @@ def submit_portal(request, spaceId, portalId):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({'message': 'Submission deadline crossed'}, status=status.HTTP_400_BAD_REQUEST)
-
