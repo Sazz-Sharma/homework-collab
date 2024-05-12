@@ -165,6 +165,18 @@ def join_request_manager(request, spaceId):
     if request.method == "PATCH":
         join_requests = JoinRequest.objects.get(request_id = request.data['request_id'])
         print(join_requests)
+        
+        if not(join_requests.is_pending):
+            join_requests.is_pending = False
+            user_space_serializer = UserSpaceSerializer(data = {'user': join_requests.user.id, 'space': join_requests.space.spaceId, 'is_teacher': False})
+            if user_space_serializer.is_valid():
+                user_space_serializer.save()
+            join_requests.save()
+            return Response({'message': 'Request Accepted'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'Request is already accepted'}, status=status.HTTP_400_BAD_REQUEST)
+        
+    
         # request_serializer = 
         
     #     if not(join_requests.get('is_pending', True)):
@@ -175,9 +187,11 @@ def join_request_manager(request, spaceId):
     #             user_space_serializer.save()
     #         join_requests.save()
     #         return Response({'message': 'Request Accepted'}, status=status.HTTP_200_OK) 
-    # if request.method == "DELETE":
-    #     join_requests.delete()
-    #     return Response({'message': 'Request Rejected'}, status=status.HTTP_200_OK)
+    
+    if request.method == "DELETE":
+        join_requests = JoinRequest.objects.get(request_id = request.data['request_id'])
+        join_requests.delete()
+        return Response({'message': 'Request Rejected'}, status=status.HTTP_200_OK)
     
 
 @api_view(['GET'])
