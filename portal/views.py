@@ -69,3 +69,14 @@ def submit_portal(request, spaceId, portalId):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({'message': 'Submission deadline crossed'}, status=status.HTTP_400_BAD_REQUEST)
+
+@permission_classes([IsAuthenticated, IsTeacherOfSpace])
+@api_view(['GET'])
+def get_submissions(request, spaceId, portalId):
+    portal = Portal.objects.get(portalId = portalId)
+    if request.method == "GET":
+        submissions = PortalSubmission.objects.filter(portal = portal)
+        serializer = PortalSubmissionSerializer(submissions, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response(status=status.HTTP_400_BAD_REQUEST)

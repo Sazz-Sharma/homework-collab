@@ -26,5 +26,6 @@ urlpatterns = [
     path('auth/', include('djoser.urls.authtoken')),
     path('space/', include('spaces.urls')),
     path('space/portal/', include('portal.urls')),
-    path('get_username/', get_username_from_id)
+    path('get_username/', get_username_from_id), 
+    path('space/<uuid:spaceId>/mcq/', include('mcq.urls')),
 ]

@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "accounts.apps.AccountsConfig",
     "spaces.apps.SpacesConfig",
     "portal.apps.PortalConfig",
+    "mcq.apps.McqConfig",
 ]
 
 MIDDLEWARE = [

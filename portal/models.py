@@ -10,7 +10,7 @@ class Portal(models.Model):
     portalId = models.UUIDField(primary_key = False, default = uuid.uuid4, editable = False, unique = True)
     space = models.ForeignKey("spaces.Space", to_field = 'spaceId', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    description = models.TextField(default=None)
+    description = models.TextField(default=None, null= True)
     created_at = models.DateTimeField(auto_now_add=True)
     submission_start = models.DateTimeField(default = datetime.now)
     deadline = models.DateTimeField(default = time_plus_days)
