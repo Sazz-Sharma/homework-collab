@@ -7,6 +7,7 @@ class CollectionSerializer(serializers.ModelSerializer):
         fields = '__all__'
 class GetCollectionSerializer(serializers.ModelSerializer):
     created_by = serializers.CharField(source='created_by.username', read_only=True)
+    spaceId = serializers.CharField(source='spaceId.name', read_only=True)
     class Meta:
         model = Collections
         fields = '__all__'

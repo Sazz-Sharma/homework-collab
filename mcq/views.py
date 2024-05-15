@@ -139,8 +139,9 @@ def submit_answersheet(request, spaceId):
         response = serializer.data
         for items in response:
             items['chosen_answer'] = chosen_answers[items['questionId']]
+            items.pop('collectionId')
             
         pass_fail = "Pass" if obtained_marks >= Collections.objects.get(collectionId = collectionId).pass_marks else "Fail"
-        return Response({"message": "Answersheet submitted successfully.", "obtained_marks": obtained_marks, "questions": response, "remark":pass_fail}, status=status.HTTP_200_OK)
+        return Response({"message": "Answersheet submitted successfully.","collection":GetCollectionSerializer(Collections.objects.get(collectionId = collectionId)).data,"obtained_marks": obtained_marks, "questions": response, "remark":pass_fail}, status=status.HTTP_200_OK)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
