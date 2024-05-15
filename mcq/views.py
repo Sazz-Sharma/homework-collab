@@ -39,6 +39,14 @@ def get_collections(request, spaceId):
     
 @permission_classes([IsAuthenticated, IsMemberOfSpace])
 @api_view(['GET'])
+def collection_detail(request, spaceId):
+    collectionId = request.query_params.get('collectionId')
+    collection = Collections.objects.get(collectionId = collectionId)
+    serializer = GetCollectionSerializer(collection)
+    return Response(serializer.data, status = status.HTTP_200_OK)
+
+@permission_classes([IsAuthenticated, IsMemberOfSpace])
+@api_view(['GET'])
 def question_list(request, spaceId):
     collectionId = request.query_params.get('collectionId')
     if request.method == 'GET':
