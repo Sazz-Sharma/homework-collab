@@ -8,8 +8,9 @@ from .serializers import CollectionSerializer, QuestionSerializer, GetCollection
 from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
-@permission_classes([IsAuthenticated, IsTeacherOfSpace])
+
 @api_view(["POST"])
+@permission_classes([IsAuthenticated, IsTeacherOfSpace])
 def create_collection(request, spaceId):
     if request.method == "POST":
         copied_data = request.data.copy()
@@ -27,8 +28,9 @@ def create_collection(request, spaceId):
     return Response(status = status.HTTP_400_BAD_REQUEST)
 
 
-@permission_classes([IsAuthenticated, IsMemberOfSpace])
+
 @api_view(['GET'])
+@permission_classes([IsAuthenticated, IsMemberOfSpace])
 def get_collections(request, spaceId):
     serializer = GetCollectionSerializer(Collections.objects.filter(spaceId = spaceId), many = True)
     if serializer:
@@ -37,8 +39,9 @@ def get_collections(request, spaceId):
     else:
         return Response(status = status.HTTP_400_BAD_REQUEST)
     
-@permission_classes([IsAuthenticated, IsMemberOfSpace])
+
 @api_view(['GET'])
+@permission_classes([IsAuthenticated, IsMemberOfSpace])
 def collection_detail(request, spaceId):
     collectionId = request.query_params.get('collectionId')
     collection = Collections.objects.get(collectionId = collectionId)
@@ -57,8 +60,9 @@ def question_list(request, spaceId):
         return Response(status = status.HTTP_400_BAD_REQUEST)
 
 
-@permission_classes([IsAuthenticated, IsTeacherOfSpace])
+
 @api_view(["POST"])
+@permission_classes([IsAuthenticated, IsTeacherOfSpace])
 def create_question(request, spaceId):
     '''
     Question Payload:
@@ -105,8 +109,9 @@ def create_question(request, spaceId):
                 
         return Response({"detail": "Questions created successfully."}, status=status.HTTP_201_CREATED)
     
-@permission_classes([IsAuthenticated, IsMemberOfSpace])
+
 @api_view(['POST'])
+@permission_classes([IsAuthenticated, IsMemberOfSpace])
 def submit_answersheet(request, spaceId):
     '''
     Answersheet Submission Payload:

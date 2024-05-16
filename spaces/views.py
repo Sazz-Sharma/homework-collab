@@ -151,7 +151,8 @@ def send_join_request(request, spaceId):
         student_id = Token.objects.get(key = token).user_id
         copied_data['user'] = student_id
         serializer = JoinRequestSerializer(data=copied_data)
-        if serializer.is_valid():
+        if_exists = JoinRequest.objects.filter(user = student_id, space = spaceId, is_pending = True)
+        if serializer.is_valid() and (if_exists.exists() == False):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
